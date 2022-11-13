@@ -3,17 +3,28 @@ const kartTemplate = `
         <div class="kart-onyuz">
             <img src="https://via.placeholder.com/100x100?text=?">
         </div>
-
         <div class="kart-arkayuz">
             <img src="">
         </div>
     </div>
 `;
 
-const fotoNumaralari = [
-    10, 20, 30, 20,
-    10, 40, 40, 30
-];
+// const fotoNumaralari = [
+//     10, 20, 30, 20,
+//     10, 40, 40, 30
+// ];
+
+function randomfoto() {
+    let dizi = [];
+    for (let i = 0; i<4; i++) {
+        dizi.push(Math.floor(Math.random() * 100))
+    }
+    dizi.push(...dizi); 
+
+    return dizi;
+}
+
+const fotoNumaralari = randomfoto();
 
 for (fotoNumara of fotoNumaralari) {
     const yenikart = document.createElement("div");
@@ -25,6 +36,10 @@ for (fotoNumara of fotoNumaralari) {
     //Her bir karta tıklandığında "kartTiklama" fonksiyonu çalışacak.
     yenikart.addEventListener("click", kartTiklama);
 }
+
+let sayac = 0;
+let gif = document.querySelector(".gif");
+let body = document.querySelector("body");
 
 function kartTiklama(olay) {
     //Tıklanan kartı seçilen olarak değişkene atayalım
@@ -75,6 +90,20 @@ function kartTiklama(olay) {
 
         acikKart.classList.remove("acik");
         secilenKart.classList.remove("acik");
+        let puan = document.querySelector("span");
+        sayac ++;
+        puan.textContent = sayac
+
+        if(puan.textContent == 4){
+            gif.classList.add("d-block");
+            body.classList.add("bg-black");
+            document.querySelector("div#oyun-cerceve").classList.add("d-none");
+            setTimeout(() => {
+               gif.classList.remove("d-block");
+               body.classList.remove("bg-black");
+               document.querySelector("div#oyun-cerceve").classList.remove("d-none");
+          }, 4000);
+        }
 
         setTimeout(() => {
             acikKart.removeEventListener("click", kartTiklama);
